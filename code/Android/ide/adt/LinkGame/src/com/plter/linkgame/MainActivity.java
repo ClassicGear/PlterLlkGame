@@ -4,12 +4,15 @@ import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.cg.linkgame.*;
+import com.cg.linkgame.SplashActivity;
 import com.plter.lib.android.java.controls.ArrayAdapter;
 
 public class MainActivity extends ListActivity {
@@ -18,9 +21,18 @@ public class MainActivity extends ListActivity {
 	private ArrayAdapter<GameListCellData> adapter;
 	private ProgressDialog dialog=null;
 	
+	
+	//private TextView textView1 = null;
+	
+	//private int TITLE_TIME = 2000;
+	//标题画面显示时间为2秒。
+	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_activity);
+		//textView1 = (TextView) findViewById(R.id.textinfo1);
+		
+		//imageView1=(ImageView) findViewById(R.id.imageView1);
 		
 		adapter=new ArrayAdapter<MainActivity.GameListCellData>(this,R.layout.game_list_cell) {
 			
@@ -37,11 +49,19 @@ public class MainActivity extends ListActivity {
 		
 		setListAdapter(adapter);
 		
-		adapter.add(new GameListCellData("水果连连看", R.drawable.sg_icon, "sg_config.json"));
-		adapter.add(new GameListCellData("蔬菜连连看", R.drawable.sc_icon, "sc_config.json"));
-		adapter.add(new GameListCellData("动物连连看", R.drawable.dw_icon, "dw_config.json"));
-		adapter.add(new GameListCellData("爱心连连看", R.drawable.love_icon, "love_config.json"));
-		adapter.add(new GameListCellData("宝石连连看", R.drawable.coin_icon, "coin_config.json"));
+		//adapter.add(new GameListCellData("水果连连看", R.drawable.sg_icon, "sg_config.json"));
+		//adapter.add(new GameListCellData("蔬菜连连看", R.drawable.sc_icon, "sc_config.json"));
+		//adapter.add(new GameListCellData("动物连连看", R.drawable.dw_icon, "dw_config.json"));
+		//adapter.add(new GameListCellData("爱心连连看", R.drawable.love_icon, "love_config.json"));
+		//adapter.add(new GameListCellData("宝石连连看", R.drawable.coin_icon, "coin_config.json"));
+		adapter.add(new GameListCellData("開始遊戲", R.drawable.hz_icon, "hz_config.json"));
+		
+		//new Handler().postDelayed(new Runnable(){
+
+		//	public void run(){
+		//		imageView1.setVisibility(View.GONE);
+		//	}
+		//}, TITLE_TIME);
 	}
 	
 	
@@ -69,6 +89,7 @@ public class MainActivity extends ListActivity {
 		
 		super.onListItemClick(l, v, position, id);
 	}
+	
 	
 	
 	public static class GameListCellData{

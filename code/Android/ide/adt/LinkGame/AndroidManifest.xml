@@ -1,31 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.plter.linkgame"
-    android:versionCode="3"
-    android:versionName="1.2"
+    android:versionCode="1"
+    android:versionName="0.55"
     android:installLocation="auto" >
 
     <uses-sdk android:minSdkVersion="8" />
 
     <application
-        android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name" >
+        android:icon="@drawable/hz_icon"
+        android:label="@string/app_name" android:logo="@drawable/hz_icon">
         <activity
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/app_name"
-            android:name=".MainActivity"
+            android:name="com.cg.linkgame.SplashActivity"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Light" >
+            android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen" >
             <intent-filter >
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
+        <activity
+            android:configChanges="keyboardHidden|orientation"
+            android:label="@string/app_name"
+            android:name=".MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen" >
+        </activity>
         <activity
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/app_name"
             android:name=".LinkGameActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen" />
+        <activity
+            android:configChanges="keyboardHidden|orientation"
+            android:label="@string/app_name"
+            android:name=".InfoActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen" />
     </application>

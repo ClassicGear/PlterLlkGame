@@ -4,7 +4,7 @@ public class Level {
 
 
 	public static final Level[] LEVELS = new Level[]{
-		new Level(3, 4,10),
+		/**		new Level(3, 4,10),
 		new Level(3, 6,13),
 		new Level(4, 5,15),
 		new Level(4, 6,18),
@@ -14,6 +14,17 @@ public class Level {
 		new Level(6, 8,35),
 		new Level(6, 9,38),
 		new Level(6, 10,40)
+			 */
+		new Level(3, 4,10),
+		new Level(3, 6,50),
+		new Level(4, 5,100),
+		new Level(4, 6,100),
+		new Level(5, 6,100),
+		new Level(5, 8,200),
+		new Level(6, 7,200),
+		new Level(6, 9,200),
+		new Level(6, 9,200),
+		new Level(6, 10,200)
 	};
 
 	public static final int MAX_H_CARDS_COUNT=6;

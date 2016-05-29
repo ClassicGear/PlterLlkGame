@@ -71,6 +71,15 @@ public class GameView extends FrameLayout{
 	 * 重置关卡
 	 */
 	public void reset(){
+		if (currentCheckedCard!=null) {
+			currentCheckedCard.setChecked(false);
+			lastCheckedCard.setChecked(false);
+			//解除卡片的被选中状态（不进行这一步，卡片会留下且一直闪烁）。
+			gameCardsMap[currentCheckedCard.getIndexI()][currentCheckedCard.getIndexJ()]=null;
+			gameCardsMap[lastCheckedCard.getIndexI()][lastCheckedCard.getIndexJ()]=null;
+			currentCheckedCard=null;
+			lastCheckedCard=null;
+		}
 		levelNum=0;
 	}
 
@@ -81,7 +90,15 @@ public class GameView extends FrameLayout{
 	public void startGame(){
 		level=Level.LEVELS[levelNum];
 		currentTime=level.getMaxTime();
+		//
 
+		if (levelNum<=getGamePkg().getBackgrounds().length-1 ){
+		    setBackgroundDrawable(new BitmapDrawable(getGamePkg().getBackgrounds()[(int) (levelNum)].getBitmap()));
+		}else{
+			setBackgroundDrawable(new BitmapDrawable(getGamePkg().getBackgrounds()[(int) (getGamePkg().getBackgrounds().length-1)].getBitmap()));
+		}
+		//本小关的背景图，要么是和关卡数对应的那一张，要么是最后一张（背景图不够用的时候）。
+		
 		getLevelTv().setText(String.format("第%d关，", levelNum+1));
 
 		genGameCards();
@@ -99,6 +116,10 @@ public class GameView extends FrameLayout{
 	 * 打乱卡片
 	 */
 	public void breakGameCards(){
+		
+		if (gameCards.size()>0){
+			//如果还有剩余的卡片，就重排，否则什么都不做，防止出错。
+		
 		gameCardsMap=new Card[level.getH_cards_count()][level.getV_cards_count()];
 
 		allIndex.clear();
@@ -123,6 +144,8 @@ public class GameView extends FrameLayout{
 
 		if (!GameUtil.isGameConnected(level, gameCards, gameCardsMap,null)) {
 			breakGameCards();
+		}
+		
 		}
 	}
 
@@ -200,6 +223,9 @@ public class GameView extends FrameLayout{
 			if (lastCheckedCard!=null) {
 				if (lastCheckedCard!=currentCheckedCard) {
 					if(testCards()){
+						currentCheckedCard.setChecked(false);
+						lastCheckedCard.setChecked(false);
+						//解除卡片的被选中状态（不进行这一步，卡片会留下且一直闪烁）。
 						gameCardsMap[currentCheckedCard.getIndexI()][currentCheckedCard.getIndexJ()]=null;
 						gameCardsMap[lastCheckedCard.getIndexI()][lastCheckedCard.getIndexJ()]=null;
 						cardsContainer.removeView(currentCheckedCard);
@@ -207,6 +233,7 @@ public class GameView extends FrameLayout{
 
 						gameCards.remove(currentCheckedCard);
 						gameCards.remove(lastCheckedCard);
+
 
 						currentCheckedCard.setOnClickListener(null);
 						lastCheckedCard.setOnClickListener(null);
@@ -245,9 +272,9 @@ public class GameView extends FrameLayout{
 									setEnabled(false);
 									new AlertDialog.Builder(getContext())
 									.setTitle("恭喜")
-									.setMessage("你真厉害，已经通关了")
+									.setMessage("你真厉害，已经通关了！请期待下一个版本的推出！")
 									.setCancelable(false)
-									.setNegativeButton("退出", new DialogInterface.OnClickListener() {
+									.setNegativeButton("回到菜单", new DialogInterface.OnClickListener() {
 
 										public void onClick(DialogInterface dialog, int which) {
 											System.exit(0);
@@ -317,21 +344,30 @@ public class GameView extends FrameLayout{
 	 * 暂停游戏
 	 */
 	public void pauseGame(){
+		if (gameCards.size()>0){
+			//如果还有剩余的卡片，就暂停，否则什么都不做，防止出错。
 		gameRunning=false;
 		pause();
 		
 		new AlertDialog.Builder(getContext())
 		.setCancelable(false)
 		.setTitle("暂停中")
-		.setMessage("游戏暂停中，请点击“继续”按钮继续游戏")
-		.setPositiveButton("继续", new DialogInterface.OnClickListener() {
+		.setMessage("游戏暂停中，请点击“继续游戏”按钮继续游戏，点击“退出游戏”按钮回到标题画面。")
+		.setPositiveButton("继续游戏", new DialogInterface.OnClickListener() {
 			
 			public void onClick(DialogInterface dialog, int which) {
 				gameRunning=true;
 				resume();
 			}
 		})
+		.setNegativeButton("退出游戏", new DialogInterface.OnClickListener() {
+			
+			public void onClick(DialogInterface dialog, int which) {
+				System.exit(0);
+			}
+		})
 		.show();
+		}
 	}
 	
 
@@ -362,9 +398,11 @@ public class GameView extends FrameLayout{
 	 * 打乱卡片数组
 	 */
 	private void breakGameCardsArray(){
+
 		for (int i = 0; i < 200; i++) {
 			gameCards.add(gameCards.remove((int)(Math.random()*gameCards.size())));
 		}
+
 	}
 
 
@@ -541,6 +579,16 @@ public class GameView extends FrameLayout{
 			}else{
 				if (gameCards.size()>0) {
 
+					if (currentCheckedCard!=null) {
+						currentCheckedCard.setChecked(false);
+						lastCheckedCard.setChecked(false);
+						//解除卡片的被选中状态（不进行这一步，卡片会留下且一直闪烁）。
+						gameCardsMap[currentCheckedCard.getIndexI()][currentCheckedCard.getIndexJ()]=null;
+						gameCardsMap[lastCheckedCard.getIndexI()][lastCheckedCard.getIndexJ()]=null;
+						currentCheckedCard=null;
+						lastCheckedCard=null;
+					}
+				
 					gameRunning=false;
 					timerRunning=false;
 

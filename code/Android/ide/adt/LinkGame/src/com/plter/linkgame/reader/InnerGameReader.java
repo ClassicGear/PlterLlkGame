@@ -38,8 +38,17 @@ public class InnerGameReader {
 				pictures[i]=new Picture(BitmapFactory.decodeStream(is));
 				is.close();
 			}
-			
-			return new GamePkg(name, new Background(backgroundBitmap), pictures);
+			//
+			//read backgrounds读取一组背景图片
+			JSONArray bgsJsonArr = jsonObject.getJSONArray("backgrounds");
+			Background[] backgrounds = new Background[bgsJsonArr.length()];
+			for (int i = 0; i < backgrounds.length; i++) {
+				is = context.getAssets().open(bgsJsonArr.getString(i));
+				backgrounds[i]=new Background(BitmapFactory.decodeStream(is));
+				is.close();
+			}
+			//
+			return new GamePkg(name, new Background(backgroundBitmap), pictures, backgrounds);
 		} catch (IOException e) {
 			Toast.makeText(context, "读取游戏资源失败", Toast.LENGTH_SHORT);
 			e.printStackTrace();

@@ -6,6 +6,7 @@ import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.PointF;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.widget.FrameLayout;
@@ -16,7 +17,8 @@ import com.plter.linkgame.reader.Picture;
 
 public class Card extends FrameLayout {
 
-	
+	private final AlphaAnimation aa = new AlphaAnimation(1, 0);
+	//卡片被选中时的闪烁效果。
 	public Card(Context context,Picture pic) {
 		super(context);
 		
@@ -24,9 +26,11 @@ public class Card extends FrameLayout {
 		
 		imageView=new ImageView(getContext());
 		imageView.setImageBitmap(getPicture().getBitmap());
+		imageView.setAlpha(197);
+		//半透明……
 		addView(imageView, -1, -1);
 		
-		noteRect=createRectLine(0xFF00FF00);
+		noteRect=createRectLine(0xFFFF0000);
 		addView(noteRect, -1, -1);
 		noteRect.setVisibility(View.INVISIBLE);
 		
@@ -34,9 +38,17 @@ public class Card extends FrameLayout {
 		addView(checkedRect, -1, -1);
 		setChecked(false);
 		
+
+		
 		//config note animation
 		cna.setDuration(3000);
 		cna.setAnimationListener(cardNoteAnimListener);
+		
+		aa.setDuration(300);
+		aa.setRepeatCount (-1);
+		aa.setRepeatMode (2);
+		//aa.setAnimationListener(this);
+		//设置卡片被选中时候的闪烁效果。
 	}
 	
 	
@@ -98,8 +110,15 @@ public class Card extends FrameLayout {
 			checkedRect.setVisibility(View.VISIBLE);
 			
 			stopNoteAnim();
+			//停止提示动画。
+			
+			startAnimation(aa);
+			//开始闪烁动画。
 		}else{
 			checkedRect.setVisibility(View.INVISIBLE);
+			
+			setAnimation(null);
+			//停止闪烁动画。
 		}
 	}
 

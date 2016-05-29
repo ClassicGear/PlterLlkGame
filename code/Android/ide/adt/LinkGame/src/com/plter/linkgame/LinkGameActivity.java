@@ -7,6 +7,7 @@ import android.view.Display;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.cg.linkgame.*;
 import com.plter.linkgame.game.Config;
 import com.plter.linkgame.game.GameView;
 import com.plter.linkgame.reader.InnerGameReader;
